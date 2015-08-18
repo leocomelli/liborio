@@ -99,11 +99,9 @@ func main() {
 	ws := new(restful.WebService)
 
 	ws.Route(ws.GET("/").To(findAll))
-	ws.Route(ws.GET("/{app-name}").To(find))
-	ws.Route(ws.GET("/{app-name}/{filename}").To(get))
-	ws.Route(ws.POST("/{app-name}/{filename}").
-				Filter(basicAuthenticate).
-	            To(upload))
+	ws.Route(ws.GET("/{app-name}").Filter(basicAuthenticate).To(find))
+	ws.Route(ws.GET("/{app-name}/{filename}").Filter(basicAuthenticate).To(get))
+	ws.Route(ws.POST("/{app-name}/{filename}").Filter(basicAuthenticate).To(upload))
 	restful.Add(ws)
 
 	log.Println("[liborio] serving files on http://localhost:8080/{app}/{filename} from local ", STORE)
